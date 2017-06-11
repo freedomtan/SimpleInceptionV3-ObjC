@@ -26,6 +26,7 @@
 		1A99FECB1EECFDFC00AA0E8D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1A99FECD1EECFDFC00AA0E8D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1A99FECE1EECFDFC00AA0E8D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		1A99FED81EED0B1800AA0E8D /* CoreML.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreML.framework; path = System/Library/Frameworks/CoreML.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,6 +45,7 @@
 			children = (
 				1A99FEBE1EECFDFC00AA0E8D /* SimpleInceptionV3-ObjC */,
 				1A99FEBD1EECFDFC00AA0E8D /* Products */,
+				1A99FED71EED0B1800AA0E8D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -69,6 +71,14 @@
 				1A99FECE1EECFDFC00AA0E8D /* main.m */,
 			);
 			path = "SimpleInceptionV3-ObjC";
+			sourceTree = "<group>";
+		};
+		1A99FED71EED0B1800AA0E8D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1A99FED81EED0B1800AA0E8D /* CoreML.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -314,6 +324,7 @@
 				1A99FED41EECFDFC00AA0E8D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
