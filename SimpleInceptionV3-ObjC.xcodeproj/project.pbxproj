@@ -16,6 +16,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1A74D28E1EF8027F0017FF91 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		1A99FEBC1EECFDFC00AA0E8D /* SimpleInceptionV3-ObjC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SimpleInceptionV3-ObjC.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A99FEBF1EECFDFC00AA0E8D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		1A99FEC01EECFDFC00AA0E8D /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -76,6 +77,7 @@
 		1A99FED71EED0B1800AA0E8D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1A74D28E1EF8027F0017FF91 /* AVFoundation.framework */,
 				1A99FED81EED0B1800AA0E8D /* CoreML.framework */,
 			);
 			name = Frameworks;

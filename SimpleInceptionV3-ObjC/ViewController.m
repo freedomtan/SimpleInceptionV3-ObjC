@@ -23,6 +23,7 @@
     // Do any additional setup after loading the view, typically from a nib.
     // self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell");
     [self.tableView registerClass:UITableViewCell.self forCellReuseIdentifier: @"cell"];
+    [self setupCamera];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -92,7 +93,52 @@
 }
 
 - (NSInteger) tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.numberOfResults;
+    // store only top 5 results
+    return (self.numberOfResults > 5)? self.numberOfResults : 5 ;
+}
+
+- (void) setupCamera {
+    session = [[AVCaptureSession alloc] init];
+    [session setSessionPreset:AVCaptureSessionPresetPhoto];
+    
+    inputDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+    NSError *error;
+    deviceInput = [AVCaptureDeviceInput deviceInputWithDevice:inputDevice error:&error];
+    
+    if ([session canAddInput:deviceInput]) {
+        [session addInput:deviceInput];
+    }
+    
+    previewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:session];
+    [previewLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
+    CALayer *rootLayer = [[self view] layer];
+    [rootLayer setMasksToBounds:YES];
+    CGRect frame = self.view.frame;
+    [previewLayer setFrame:frame];
+    [rootLayer insertSublayer:previewLayer atIndex:0];
+
+    AVCaptureVideoDataOutput *videoDataOutput = [AVCaptureVideoDataOutput new];
+    
+    NSDictionary *rgbOutputSettings = [NSDictionary
+                                       dictionaryWithObject:[NSNumber numberWithInt:kCMPixelFormat_32BGRA]
+                                       forKey:(id)kCVPixelBufferPixelFormatTypeKey];
+    [videoDataOutput setVideoSettings:rgbOutputSettings];
+    [videoDataOutput setAlwaysDiscardsLateVideoFrames:YES];
+    dispatch_queue_t videoDataOutputQueue = dispatch_queue_create("VideoDataOutputQueue", DISPATCH_QUEUE_SERIAL);
+    [videoDataOutput setSampleBufferDelegate:self queue:videoDataOutputQueue];
+    
+    if ([session canAddOutput:videoDataOutput])
+        [session addOutput:videoDataOutput];
+    [[videoDataOutput connectionWithMediaType:AVMediaTypeVideo] setEnabled:YES];
+    
+    [session startRunning];
+}
+
+- (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection {
+    // NSLog(@"here");
+    CVImageBufferRef cvImage = CMSampleBufferGetImageBuffer(sampleBuffer);
+    CIImage *ciImage = [[CIImage alloc] initWithCVPixelBuffer:cvImage];
+    [self labelImage: ciImage];
 }
 
 @end

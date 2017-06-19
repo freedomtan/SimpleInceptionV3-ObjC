@@ -7,8 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <AVFoundation/AVFoundation.h>
 
-@interface ViewController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource>
+@interface ViewController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource, AVCaptureVideoDataOutputSampleBufferDelegate> {
+    AVCaptureSession *session;
+    AVCaptureStillImageOutput *stillImageOutput;
+    AVCaptureDevice *inputDevice;
+    AVCaptureDeviceInput *deviceInput;
+    AVCaptureVideoPreviewLayer *previewLayer;
+}
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UILabel *messageLabel;
