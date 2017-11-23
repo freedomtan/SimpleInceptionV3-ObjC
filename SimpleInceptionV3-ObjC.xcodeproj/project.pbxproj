@@ -13,6 +13,7 @@
 		1A99FEC91EECFDFC00AA0E8D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A99FEC81EECFDFC00AA0E8D /* Assets.xcassets */; };
 		1A99FECC1EECFDFC00AA0E8D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1A99FECA1EECFDFC00AA0E8D /* LaunchScreen.storyboard */; };
 		1A99FECF1EECFDFC00AA0E8D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A99FECE1EECFDFC00AA0E8D /* main.m */; };
+		1AC9B78F1FC6F7E8008C4EA7 /* MobileNet_050_160.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 1AC9B78E1FC6F7E8008C4EA7 /* MobileNet_050_160.mlmodel */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		1A99FECD1EECFDFC00AA0E8D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1A99FECE1EECFDFC00AA0E8D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		1A99FED81EED0B1800AA0E8D /* CoreML.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreML.framework; path = System/Library/Frameworks/CoreML.framework; sourceTree = SDKROOT; };
+		1AC9B78E1FC6F7E8008C4EA7 /* MobileNet_050_160.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = MobileNet_050_160.mlmodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +72,7 @@
 				1A99FECA1EECFDFC00AA0E8D /* LaunchScreen.storyboard */,
 				1A99FECD1EECFDFC00AA0E8D /* Info.plist */,
 				1A99FECE1EECFDFC00AA0E8D /* main.m */,
+				1AC9B78E1FC6F7E8008C4EA7 /* MobileNet_050_160.mlmodel */,
 			);
 			path = "SimpleInceptionV3-ObjC";
 			sourceTree = "<group>";
@@ -109,7 +112,7 @@
 		1A99FEB41EECFDFC00AA0E8D /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0900;
+				LastUpgradeCheck = 0910;
 				ORGANIZATIONNAME = "Koan-Sin Tan";
 				TargetAttributes = {
 					1A99FEBB1EECFDFC00AA0E8D = {
@@ -155,6 +158,7 @@
 			files = (
 				1A99FEC41EECFDFC00AA0E8D /* ViewController.m in Sources */,
 				1A99FECF1EECFDFC00AA0E8D /* main.m in Sources */,
+				1AC9B78F1FC6F7E8008C4EA7 /* MobileNet_050_160.mlmodel in Sources */,
 				1A99FEC11EECFDFC00AA0E8D /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -201,6 +205,8 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
@@ -254,6 +260,8 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;

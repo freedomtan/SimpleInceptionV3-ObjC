@@ -8,12 +8,15 @@
 
 #import "ViewController.h"
 
-#import <CoreML/CoreML.h>
-#import <Vision/Vision.h>
+// #import "MobileNet_10_224.h"
+#import "MobileNet_050_160.h"
+// #import "Inceptionv3.h"
 
-#import "Inceptionv3.h"
+// Core ML MobileNet models could be converted from Keras models using script at https://github.com/freedomtan/coreml-mobilenet-models/.
+// E.g., to get MobileNet 0.5/160,
+//   > python mobilenets.py --alpha 0.50 --image_size 160
 
-@interface ViewController () 
+@interface ViewController ()
 @end
 
 @implementation ViewController 
@@ -22,6 +25,30 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     // self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell");
+
+    startTimes = [NSMutableArray array];
+    // model = [[[Inceptionv3 alloc] init] model];
+    // model = [[[MobileNet_10_224 alloc] init] model];
+    model = [[[MobileNet_050_160 alloc] init] model];
+    m = [VNCoreMLModel modelForMLModel: model error:nil];
+    rq = [[VNCoreMLRequest alloc] initWithModel: m completionHandler: (VNRequestCompletionHandler) ^(VNRequest *request, NSError *error){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSTimeInterval start, stop;
+            stop = [[NSDate date] timeIntervalSince1970];
+            start = [[startTimes objectAtIndex: 0] doubleValue];
+            [startTimes removeObjectAtIndex: 0];
+            // NSLog(@"diff: %ld, %f\n", [startTimes count], (stop - start) * 1000);
+            self.messageLabel.text = @"done";
+            self.numberOfResults = request.results.count;
+            self.results = [request.results copy];
+            VNClassificationObservation *topResult = ((VNClassificationObservation *)(self.results[0]));
+            self.messageLabel.text = [NSString stringWithFormat: @"%f: %@", topResult.confidence, topResult.identifier];
+            self.fpsLabel.text = [NSString stringWithFormat: @"%f fps", 1/((stop - start))];
+            
+            [self.tableView reloadData];
+        });
+    }];
+    
     [self.tableView registerClass:UITableViewCell.self forCellReuseIdentifier: @"cell"];
     [self setupCamera];
 }
@@ -32,25 +59,13 @@
 }
 
 - (void) labelImage: (CIImage *)image {
-    MLModel *model = [[[Inceptionv3 alloc] init] model];
-    VNCoreMLModel *m = [VNCoreMLModel modelForMLModel: model error:nil];
-    VNCoreMLRequest *rq = [[VNCoreMLRequest alloc] initWithModel: m completionHandler: (VNRequestCompletionHandler) ^(VNRequest *request, NSError *error){
-        dispatch_async(dispatch_get_main_queue(), ^{
-            self.messageLabel.text = @"done";
-            self.numberOfResults = request.results.count;
-            self.results = [request.results copy];
-            VNClassificationObservation *topResult = ((VNClassificationObservation *)(self.results[0]));
-            self.messageLabel.text = [NSString stringWithFormat: @"%f: %@", topResult.confidence, topResult.identifier];
-            
-            [self.tableView reloadData];
-        });
-    }];
+    NSTimeInterval start = [[NSDate date] timeIntervalSince1970];
+    [startTimes addObject: [NSNumber numberWithDouble: start]];
     
-    NSDictionary *d = [[NSDictionary alloc] init];
     NSArray *a = @[rq];
-    
+    NSDictionary *d = [[NSDictionary alloc] init];
     VNImageRequestHandler *handler = [[VNImageRequestHandler alloc] initWithCIImage:image options:d];
-    dispatch_async(dispatch_get_main_queue(), ^{
+    dispatch_sync(dispatch_get_main_queue(), ^{
         [handler performRequests:a error:nil];
     });
 }
@@ -135,7 +150,6 @@
 }
 
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection {
-    // NSLog(@"here");
     CVImageBufferRef cvImage = CMSampleBufferGetImageBuffer(sampleBuffer);
     CIImage *ciImage = [[CIImage alloc] initWithCVPixelBuffer:cvImage];
     [self labelImage: ciImage];

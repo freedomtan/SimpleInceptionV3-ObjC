@@ -9,16 +9,25 @@
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
 
+#import <CoreML/CoreML.h>
+#import <Vision/Vision.h>
+
 @interface ViewController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource, AVCaptureVideoDataOutputSampleBufferDelegate> {
     AVCaptureSession *session;
-    AVCaptureStillImageOutput *stillImageOutput;
     AVCaptureDevice *inputDevice;
     AVCaptureDeviceInput *deviceInput;
     AVCaptureVideoPreviewLayer *previewLayer;
+
+    MLModel *model;
+    VNCoreMLModel *m;
+    VNCoreMLRequest *rq;
+
+    NSMutableArray *startTimes;
 }
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UILabel *messageLabel;
+@property (weak, nonatomic) IBOutlet UILabel *fpsLabel;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @property (nonatomic) unsigned long numberOfResults;
